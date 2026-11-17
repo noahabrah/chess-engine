@@ -1,0 +1,32 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Test tools (downloaded or generated, see tools/match.sh)
+tools/bin/
+tools/books/
+tools/reference/
+tools/candidate/
+tools/logs/
+
+# Lichess bot (created by bot/bot.sh setup/update; never commit the token!)
+bot/lichess-bot/
+bot/.venv/
+bot/engine/
+bot/.env
+
+# NNUE training data (created by nnue/prepare_data.py)
+data/
+
+# NNUE checkpoints (created by nnue/train.py)
+checkpoints/
+
+# macOS
+.DS_Store

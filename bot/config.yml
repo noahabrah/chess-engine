@@ -1,0 +1,75 @@
+# Config for lichess-bot (https://github.com/lichess-bot-devs/lichess-bot).
+# Only settings that differ from the defaults or matter here. lichess-bot fills in
+# all other options itself (see bot/lichess-bot/config.yml.default).
+#
+# The token is NOT stored here but in bot/.env (loaded by bot/bot.sh).
+# Account: noahabrahsbot
+
+url: "https://lichess.org/"
+
+engine:
+  dir: "../engine/"           # relative to bot/lichess-bot/ -> bot/engine/ (a copy, see bot.sh update)
+  name: "run.sh"
+  protocol: "uci"
+  ponder: false               # the engine can't think on the opponent's time (yet)
+  uci_options:
+    Hash: 64                  # MB for the transposition table
+    Move Overhead: 100        # ms safety margin for network lag
+  draw_or_resign:
+    resign_enabled: false
+    offer_draw_enabled: true  # offer/accept draws in clearly equal positions
+    offer_draw_score: 0
+    offer_draw_moves: 10
+    offer_draw_pieces: 10
+  # No opening books, online databases or endgame tablebases:
+  # the bot only plays with its own engine, so its rating is honest.
+  polyglot:
+    enabled: false
+  online_moves:
+    chessdb_book:
+      enabled: false
+    lichess_cloud_analysis:
+      enabled: false
+    lichess_opening_explorer:
+      enabled: false
+    online_egtb:
+      enabled: false
+
+abort_time: 30                # abort a game after this many seconds without activity
+move_overhead: 1000           # ms lichess-bot additionally subtracts from the remaining time
+
+challenge:                    # accepting challenges from others
+  concurrency: 1              # one game at a time (the Python engine uses a full CPU core)
+  accept_bot: true
+  only_bot: false
+  min_base: 180               # at least 3 minutes: the engine is too slow for bullet
+  max_base: 1800              # at most 30 minutes
+  min_increment: 0
+  max_increment: 20
+  variants:
+    - standard
+  time_controls:
+    - blitz
+    - rapid
+    - classical
+  modes:
+    - casual
+    - rated
+
+greeting:
+  hello: "Hi! I'm {me}, a chess engine written in Python. Good luck!"
+  goodbye: "Good game!"
+  hello_spectators: "Hi! I'm {me}, a chess engine written in Python."
+  goodbye_spectators: "Thanks for watching!"
+
+matchmaking:                  # challenging other bots on its own (to get a rating)
+  allow_matchmaking: true
+  challenge_timeout: 2        # challenge someone after 2 minutes without a game
+  challenge_initial_time:     # base time in seconds (picked at random)
+    - 300
+    - 600
+  challenge_increment:
+    - 2
+    - 5
+  opponent_rating_difference: 300
+  challenge_mode: "rated"
